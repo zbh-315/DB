@@ -1,0 +1,134 @@
+10-1 查询各专业学生的平均成绩(MSSQL) (10 分)
+本题目要求编写SQL语句， 统计各专业的学生选课的平均成绩，如果某专业尚未有任何学生选修课程或成绩为空时，平均分计为0。输出结果集按照major表中的mno升序排序。
+提示：MSSQLServer 评测SQL语句。-
+select a.mname as 专业, t.avgscore as 成绩
+from major a	
+where a.cno in  (
+	select b.cno, avg(b.grade) as avgscore
+	from sc b
+	group by b.cno
+)t
+order by a.mno
+
+2.
+10-2 查询平均成绩高于75分的学生(MSSQL) (10 分)
+本题目要求编写SQL语句，在sc表 中查询平均成绩高于75分的学生。
+提示：MSSQLServer 评测SQL语句。-
+select sno as 学号, avg(grade) as 平均成绩
+from sc
+group by sno
+having avg(grade)>75
+
+3.
+10-3 查询未登记成绩的学生（MSSQL） (10 分)
+本题目要求编写SQL语句， 检索出sc表中‘C001’课程未登记成绩的学生学号
+提示：MSSQLServer 评测SQL语句。
+select sno
+from sc
+where grade is null
+
+4.
+10-4 查询选修某两门课程的学生（MSSQL） (10 分)
+本题目要求编写SQL语句， 检索出 sc表中至少选修了’C001’与’C002’课程的学生学号。
+提示：MSSQLServer 评测SQL语句。
+select a.sno as 学号
+from sc a,sc b
+where a.sno=b.sno and a.cno='C001' and b.cno='C002'
+
+5.
+10-5 查询平均分高于60分的课程（MSSQL） (10 分)
+本题目要求编写SQL语句， 查询平均分高于60分的课程的课程名。 
+提示：MSSQLServer 评测SQL语句。
+select b.cno as 课程号, b.cname as 课程名
+from cou b,  (
+	select a.cno
+	from sc a
+	group by a.cno
+	having avg(grade)>60
+)t
+where b.cno =t.cno
+
+6.
+10-6 查询成绩最高的前三名同学(MSSQL) (10 分)
+本题目要求编写SQL语句， 查询‘C语言’课程成绩最高的前三名同学。
+提示：MSSQLServer 评测SQL语句。--
+select top 3 stu.sname  as 姓名,sc.grade as 成绩
+from sc ,stu , cou
+where sc.sno=stu.sno and sc.cno=cou.cno and  cou.cname='C语言'
+order by sc.grade desc,stu.sname
+
+
+7.
+10-7 查询选修张老师讲授所有课程的学生(MSSQL) (10 分)
+本题目要求编写SQL语句， 查询选修了张老师所讲授的所有课程的学生。
+提示：MSSQLServer 评测SQL语句。--
+select stu.sname
+from stu
+where not exists(
+	select *
+	from cou
+	where not exists(
+		select *
+		from sc
+		where sc.sno=stu.sno and sc.cno=cou.cno and cou.teacher='张老师'
+	)
+)
+该学生：任意张老师的课，该学生学习了
+该学生：不存在某个张老师的课，该学生没有学习
+
+
+9.
+10-9 查询平均成绩最高的同学(MSSQL) (10 分)
+本题目要求编写SQL语句，查询平均成绩最高的同学的学号，姓名，性别，年龄及平均成绩。
+注意：假设以当前系统时间为2020年来计算学生年龄。
+提示：MSSQLServer 评测SQL语句。--
+select top 1 stu.sname as 姓名 , stu.sex as 性别,datediff (year,stu.birdate,'2020-12-31 23:59:59') as 年龄, avg(sc.grade) as 平均成绩 --,stu.age as 年龄
+from sc,stu
+where sc.sno=stu.sno 
+group by stu.sname, stu.sex,datediff (year,stu.birdate,'2020-12-31 23:59:59')
+
+
+10.
+10-9 查询平均成绩最高的同学(MSSQL) (10 分)
+本题目要求编写SQL语句，查询平均成绩最高的同学的学号，姓名，性别，年龄及平均成绩。
+注意：假设以当前系统时间为2020年来计算学生年龄。
+提示：MSSQLServer 评测SQL语句。--
+select top 3 stu.sno as 学号,stu.sname as 姓名 , stu.sex as 性别,datediff (year,stu.birdate,'2020-12-31 23:59:59') as 年龄, avg(sc.grade) as 平均成绩 
+from sc,stu
+where sc.sno=stu.sno 
+group by stu.sno,stu.sname, stu.sex,datediff (year,stu.birdate,'2020-12-31 23:59:59')
+order by avg(sc.grade) desc 
+
+12.
+10-12 查询S001学生选修而S003学生未选修的课程（MSSQL） (10 分)
+本题目要求编写SQL语句， 检索出 sc表中学号为S001的学生选修的而S003学号学生未选修的课程号。 注意：查询结果忽略顺序只对比数据。
+提示：MSSQLServer 评测SQL语句。
+select a.cno as 课程号
+from sc a
+where a.sno='S001' and not exists(
+	select *
+	from sc b
+	where a.cno=b.cno and b.sno='S003'
+)
+
+13.
+10-13 查询选修课程2门以上且成绩都在80分以上的学生（MSSQL） (10 分)
+查询选修课程数在2门以上（含2门）且所有选课成绩都在80分以上（含80分）的学生的姓名、专业名及总学分。
+提示：MSSQLServer 评测SQL语句。--
+select stu.sname as 姓名,major.mname as 专业名, sum(cou.credit) as 总学分
+from stu, sc ,cou,major
+where stu.sno=sc.sno and cou.cno=sc.cno and sc.grade>=80 and major.mno=stu.mno
+group by stu.sname,stu.sno,major.mname
+having count(*)>=2
+
+
+
+
+
+
+
+
+
+
+
+

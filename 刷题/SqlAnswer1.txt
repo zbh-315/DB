@@ -1,0 +1,340 @@
+1.
+10-1 A1-2根据所在国家查找订单信息 (20 分)
+在订单表(orders)中找出所在国家(ShipCountry)是Germany或Brazil或France的订单编号(OrderID)和顾客编号(CustomerID)
+提示：请使用SELECT语句作答。
+SELECT OrderID, CustomerID
+FROM orders 
+WHERE ShipCountry ='Germany' OR ShipCountry = 'France' OR ShipCountry = 'Brazil';
+
+2.
+10-2 A1-3查询顾客表中所有不重复的城市 (20 分)
+查询出顾客表(customers)中所有不重复的所在城市(City)
+提示：请使用SELECT语句作答。
+SELECT DISTINCT City
+FROM customers
+
+3.
+10-3 A1-4在产品表中找出库存数量大于50的产品的信息 (20 分)
+在产品表(products)中找出库存数量(UnitsInStock)大于50的产品编号(ProductID),产品名称(ProductName) 
+提示：请使用SELECT语句作答。
+select ProductID,ProductName
+from products
+where UnitsInStock>50;
+
+4.
+10-4 A1-5在顾客表中找出特定名字的顾客信息 (20 分)
+在顾客表(customers)中找出公司名(CompanyName)中包含字符串th的顾客编号和公司名称
+提示：请使用SELECT语句作答。
+select CustomerID,CompanyName
+from customers
+where CompanyName like '%th%'
+
+5.
+10-5 A1-6在顾客表中找出不是特定城市的顾客信息 (20 分)
+在顾客表(customers)中找出所在城市(City)不是Madrid、Torino和Paris的顾客编号(CustomerID)及电话(Phone)
+提示：请使用SELECT语句作答。
+select CustomerID,Phone
+from customers
+where City not in('Madrid','Torino','Paris')
+
+6.
+10-6 A1-7在产品表中找出库存量小于订购量的产品信息 (20 分)
+在产品表(products)中找出库存量(UnitsInStock)小于订购量(UnitsOnOrder)的产品的产品编号（ProductID）和产品名称（ProductName）
+提示：请使用SELECT语句作答。
+select ProductID,ProductName
+from products
+where UnitsInStock<UnitsOnOrder
+
+7.
+10-7 A1-8查询传真号码不为空的供货商信息 (20 分)
+在供货商（suppliers）中查找传真号码（Fax）不为NULL的供货商信息供货商编号（SupplierID），公司名称（CompanyName）
+提示：请使用SELECT语句作答。
+select SupplierID,CompanyName
+from suppliers
+where Fax not in NULL
+
+8.
+10-8 A2-1查找产品表中再次订购量大于15的产品信息 (20 分)
+在产品表(products)中找出再次订购量(ReorderLevel)大于15的产品的产品编号（ProductID），产品名称（ProductName）和供货商编号（SupplierID） 
+提示：请使用SELECT语句作答。
+select ProductID,ProductName,SupplierID
+from products
+where ReorderLevel>15
+
+9.
+10-9 A2-2查找产品表中再次订购量大于等于10且修订量大于订货数量的产品信息 (20 分)
+在产品表(products)中找出再次订购量(ReorderLevel)大于等于10，且再次订购量(ReorderLevel)大于订购数量（UnitsOnOrder）的产品的产品编号（ProductID），产品名称（ProductName）和供货商编号（SupplierID）
+提示：请使用SELECT语句作答。
+select ProductID,ProductName,SupplierID
+from products
+where ReorderLevel>=10 and ReorderLevel>UnitsOnOrder
+
+10.
+10-10 A2-3查询产品表中单价不在范围内的的产品信息 (20 分)
+在产品表(products)中查询单价(UnitPrice)小于15或大于45的产品的产品编号（ProductID），产品名称（ProductName）和种类编号（CategoryID）
+select ProductID,ProductName,CategoryID
+from products
+where UnitPrice<15 OR UnitPrice>45
+
+11.
+10-22 A3-1查询订单表中的平均运费 (20 分)
+查询订单表(orders)的平均运费，并将其重命名为avgFreight
+提示：请使用SELECT语句作答。
+select avg(Freight) as avgFreight
+from orders
+
+12.
+10-11 A3-2查询国家为Mexico、Germany的客户数量 (20 分)
+查询出顾客表(customers)中查询国家（Country）为Mexico、Germany的客户数量，并重命名为custCount
+提示：请使用SELECT语句作答。
+select count(Country) as custCount
+from customers
+where Country in('Mexico', 'Germany')
+
+13.
+10-12 A3-3查找产品表中最低的单价 (20 分)
+在产品表(products)中查询最低的单价(UnitPrice)，并重命名为minUnitPrice
+提示：请使用SELECT语句作答。
+select min(UnitPrice) as minUnitPrice
+from products
+
+14.
+10-13 A3-4查询产品表中最大库存量 (20 分)
+在产品表(products)中查询最多的库存数量(UnitsInStock)，并重命名为maxUnitsInStock
+提示：请使用SELECT语句作答。
+select max(UnitsInStock) as maxUnitsInStock
+from products
+
+15.
+10-14 A4-4查找产品表中平均订购数大于特定值的产品信息 (20 分)
+在产品表(products)中查找总订购数量大于15的产品信息，显示为：产品编号(ProductID)，和总订货数量（重命名为sumUnitsOnOrder）
+提示：请使用SELECT语句作答。
+select ProductID,sum(UnitsOnOrder) as sumUnitsOnOrder
+from products
+group by ProductID
+having sumUnitsOnOrder>15
+
+16.
+10-15 C1-1新增一个区域 (20 分)
+在区域表（region）中添加一条记录：区域编号（RegionID）为5，区域描述（RegionDescription）为Center
+提示：请使用INSERT语句作答。
+insert into region(RegionID,RegionDescription)
+values(5,'Center')
+
+17.
+10-16 C1-2新增订单统计信息 (20 分)
+统计订单表（orders）中顾客的订单数量，并插入results表中 
+提示：请使用INSERT语句作答。
+insert into results(CustomerID,OrderCount)
+select CustomerID,count(CustomerID)
+from orders
+group by CustomerID
+
+18.
+10-17 C2-1修改订单运费 (20 分)
+修改订单表（orders）中的运费，将每单运费（Freight）增加50% 
+提示：请使用UPDATE语句作答。
+update orders
+set Freight=Freight*1.5
+
+19.
+10-18 C2-2修改特定职工的订单运费 (20 分)
+修改订单表（orders）中员工编号（EmployeeID）为3和4的员工的订单，将每单运费（Freight）减少5%
+提示：请使用UPDATE语句作答。
+update orders
+set Freight=Freight*0.95
+where EmployeeID=3 or EmployeeID=4
+
+20.
+10-19 C2-3根据运费调整订单单价 (20 分)
+对于运费（Freight）超过30.00的订单，将其相关的订单详情表（orderdetails）中产品的单价（UnitPrice）提高15%
+提示：请使用UPDATE语句作答。
+update orderdetails
+set UnitPrice=UnitPrice*1.15
+where OrderID in(
+	select OrderID
+	from orders
+	where Freight>30
+)
+
+21.
+10-37 C2-4修改订货数量最少的产品单价 (20 分)
+对于订单详情表（orderdetails）中订货数量最少的产品，将其单价下调1元
+提示：请使用UPDATE语句作答。
+Warning：本题可能涉及mysql中有关You can't specify target table for update in FROM clause的错误，需要适当调整语句写法
+update orderdetails
+set unitprice = unitprice - 1
+where productid in (
+		select t.productid
+		from (
+			select productid
+			from orderdetails
+			order by quantity
+			limit 1
+		) t
+	);
+
+22.
+10-20 C3-1删除特定城市的顾客信息 (20 分)
+删除顾客表(customers)中城市（City）为London的顾客信息
+提示：请使用DELETE语句作答。
+delete 
+from customers
+where City='London'
+
+23.
+10-21 C3-2删除没有下过订单的顾客信息 (20 分)
+删除顾客表(customers)中没有下过订单的顾客信息
+提示：请使用DELETE语句作答。
+delete 
+from customers
+where CustomerID not in(
+	select CustomerID
+	from orders
+)
+
+24.
+10-23 A4-1查找订单表中每位顾客的平均运费 (20 分)
+查询订单表(orders)中每位顾客的平均运费，结果显示为顾客编号(CustomerID)和平均运费(avgFreight)
+提示：请使用SELECT语句作答。
+select  CustomerID,avg(Freight) as avgFreight 
+from orders
+group by CustomerID
+
+25.
+10-24 A4-2统计顾客表中每个国家的顾客数量 (20 分)
+查询出顾客表(customers)中查询每个国家的客户数量，显示为国家（Country）和客户数量(custCount)
+提示：请使用SELECT语句作答。
+select Country,count(*) as custCount
+from customers
+group by Country
+
+26.
+10-35 A4-3在订单表中查找特定国家且平均运费不小于10的信息 (20 分)
+查询订单表(orders)中查找所在国家（ShipCountry）为Belgium，Switzerland，且平均运费不小于10的的顾客及运费信息，结果显示为顾客编号(CustomerID)和平均运费(avgFreight)
+提示：请使用SELECT语句作答。
+select CustomerID,avg(Freight) as avgFreight
+from orders
+where ShipCountry in ('Belgium', 'Switzerland')
+group by CustomerID
+having avgFreight>=10
+
+27.
+10-25 A4-5统计职工表中职务的数量 (20 分)
+统计职工表(employees)中职务（Title）的个数，并重命名为countTitle
+提示：请使用SELECT语句作答。
+select count(distinct Title) as countTitle
+from employees
+
+28.
+10-38 A4-7在订单详细信息表中查找包含产品种类数超过特定值的订单信息 (20 分)
+在订单详情表(orderdetails)中查找订单中包含的不同产品的个数超过2的订单信息，显示订单号（OrderID）和总数量（重命名为totalQuantity ）
+select OrderID,sum(Quantity) as totalQuantity
+from orderdetails
+group by OrderID
+having count(OrderID)>2
+
+29.
+10-36 A4-6查找订单表中特定顾客编号的相关信息 (20 分)
+查询订单表(orders)中以字母V打头的顾客编号（CustomerID）产生的订单信息，结果显示为顾客编号(CustomerID)和总运费(sumFreight)
+提示：请使用SELECT语句作答。
+select CustomerID,sum(Freight) as sumFreight
+from orders
+where CustomerID like 'V%'
+group by CustomerID
+
+30.
+10-26 B1-1查找职员信息及其直接上级的相关信息 (20 分)
+查询所有的职员的姓（LastName）和名（FirstName）以及他的直接上级的员工编号（EmployeeID）和职务（Title）
+提示：请使用SELECT语句作答。
+select a.LastName,a.FirstName,b.EmployeeID,b.Title
+from employees a , employees b
+where a.ReportsTo=b.EmployeeID
+group by a.EmployeeID
+
+
+31.
+10-27 B1-2查询供应商及其供应的产品情况 (20 分)
+查找提供产品的各个供应商名称及其供应的产品，显示为：产品编号（ProductID），产品名称（ProductName），供应商编号(SupplierID)，公司名称（CompanyName），
+提示：请使用SELECT语句作答。
+select a.ProductID,a.ProductName,a.SupplierID,b.CompanyName
+from products a ,suppliers b
+where a.SupplierID=b.SupplierID
+
+32.
+10-28 B1-3查询特定供应商及其供应的产品情况 (20 分)
+查找来自国家（Country）为Japan、USA各个供应商名称及其供应的产品，显示为：供应商编号(SupplierID)，公司名称（CompanyName），产品编号（ProductID）和产品名称（ProductName）
+提示：请使用SELECT语句作答。
+select a.ProductID,a.ProductName,a.SupplierID,b.CompanyName
+from products a,suppliers b
+where a.SupplierID=b.SupplierID and b.Country in('Japan','USA')
+
+33.
+10-29 B1-4统计各个供应商及其供应情况 (20 分)
+统计各个国家（Country）的供应商的供应产品情况，显示为：国家（Country），库存总量（重命名为sumUnitsInStock）,平均单价（重命名为avgUnitPrice）
+提示：请使用SELECT语句作答。
+select b.Country,sum(a.UnitsInStock)as sumUnitsInStock,avg(a.UnitPrice) as avgUnitPrice
+from products a,suppliers b
+where a.SupplierID= b.SupplierID 
+group by b.Country
+
+34.
+10-30 B1-6统计客户的订单信息 (20 分)
+统计客户的订单情况，显示为：公司名称（CompanyName），订单数量（重命名为countOrder）,平均运费（重命名为avgFreight）
+提示：请使用SELECT语句作答。
+select b.CompanyName,count(*) as countOrder,avg(a.Freight) as avgFreight
+from orders a,customers b
+where a.CustomerID = b.CustomerID
+group by b.CompanyName
+
+35.
+10-33 B2-1查找订单数最多的员工信息 (20 分)
+查找订单数最多的员工信息，显示为：姓（LastName），名（FirstName）和职务（Title） 
+提示：请使用SELECT语句作答。
+select LastName,FirstName,Title
+from employees
+where EmployeeID in (
+	select t.EmployeeID
+	from  (	select EmployeeID,count(*) as size
+		from orders 
+		group by EmployeeID
+		order by size desc
+		limit 1
+	)	t
+)
+
+36.
+10-34 B1-5查询客户的订单情况 (20 分)
+查找客户的订单情况，显示为：顾客编号（CustomerID） ，公司名称（CompanyName），订单编号（OrderID）,员工编号（EmployeeID）
+提示：请使用SELECT语句作答。
+select customers.CustomerID,customers.CompanyName,orders.OrderID,orders.EmployeeID
+from customers,orders
+where orders.CustomerID=customers.CustomerID  and  orders.ShipCity=customers.City
+order by customers.CustomerID 
+
+37.
+10-31 B1-7查找每位领导的直接下属数量 (20 分)
+查询每位领导的直接下属数量，显示：领导的员工编号（EmployeeID），下属数量（重命名为（countSub））
+提示：请使用SELECT语句作答。
+select b.EmployeeID,count(*) as countSub
+from employees a,employees b
+where a.ReportsTo=b.EmployeeID
+group by b.EmployeeID
+
+38.
+10-32 B1-8查询特定订单的详细信息 (20 分)
+查找城市（City）是Madrid的顾客，所下的订单详细信息，显示为：顾客编号（CustomerID），公司名称（CompanyName），订单编号（OrderID），产品编号（ProductID）
+提示：请使用SELECT语句作答。
+select a.CustomerID,c.CompanyName,a.OrderID,b.ProductID
+from orders a,orderdetails b,customers c
+where a.OrderID=b.OrderID and a.CustomerID=c.CustomerID and c.City='Madrid'
+
+39.
+10-39 A1-1查询联系人信息 (20 分)
+在顾客表(customers)中找出所在城市(City)为London的公司名(CompanyName)和联系人名(ContactName) 
+提示：请使用SELECT语句作答。
+select CompanyName,ContactName
+from customers
+where City='London'
+
+
